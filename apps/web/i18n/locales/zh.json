@@ -1,0 +1,103 @@
+{
+  "nav": {
+    "home": "首页",
+    "blog": "博客"
+  },
+  "page": {
+    "home": {
+      "brand": "Next App",
+      "brandSubtitle": "开箱即用的全栈脚手架",
+      "header": {
+        "signIn": "登录",
+        "signUp": "创建账号",
+        "profile": "个人资料"
+      },
+      "kicker": "生产级 Next.js 16 Monorepo 模板",
+      "title": "用“开箱即用”的全栈模板更快交付",
+      "subtitle": "认证、数据库、文档、国际化与现代化工具链——全部提前接好线。极简默认配置，最大化效率。",
+      "cta": {
+        "docs": "阅读文档",
+        "stack": "查看包含内容",
+        "openDocs": "打开文档"
+      },
+      "batteries": {
+        "title": "开箱即用",
+        "auth": "认证",
+        "db": "数据库",
+        "docs": "文档",
+        "i18n": "国际化",
+        "quality": "代码质量",
+        "deploy": "部署"
+      },
+      "stack": {
+        "title": "技术栈",
+        "subtitle": "核心能力已预先集成；需要时可随时替换。"
+      },
+      "structure": {
+        "title": "Monorepo 结构",
+        "subtitle": "产品应用与可复用包清晰拆分。"
+      },
+      "footer": "为 Bun + Turborepo + Vercel 设计。带观点，但易于调整。"
+    },
+    "auth": {
+      "title": "登录以继续",
+      "subtitle": "使用邮箱与密码登录；几秒钟即可创建账号。",
+      "tabs": {
+        "signIn": "登录",
+        "signUp": "注册"
+      },
+      "fields": {
+        "name": "姓名",
+        "email": "邮箱",
+        "password": "密码"
+      },
+      "placeholders": {
+        "name": "张三",
+        "email": "you@company.com",
+        "password": "输入密码"
+      },
+      "actions": {
+        "show": "显示",
+        "hide": "隐藏"
+      },
+      "cta": {
+        "signIn": "登录",
+        "signUp": "创建账号"
+      },
+      "errors": {
+        "missing": "请填写所有必填项。",
+        "generic": "出现错误，请稍后再试。"
+      }
+    },
+    "profile": {
+      "title": "个人资料",
+      "subtitle": "更新你的账户信息。修改将保存到 Better Auth 的用户记录中。",
+      "account": "账户",
+      "email": "邮箱",
+      "userId": "用户 ID",
+      "fields": {
+        "name": "姓名",
+        "company": "公司",
+        "website": "网站",
+        "avatar": "头像 URL",
+        "bio": "简介"
+      },
+      "placeholders": {
+        "name": "张三",
+        "company": "某某科技",
+        "website": "https://example.com",
+        "avatar": "https://.../avatar.png",
+        "bio": "一句话介绍你在做什么、关注什么。"
+      },
+      "cta": {
+        "save": "保存修改",
+        "signOut": "退出登录"
+      },
+      "saved": "已保存。",
+      "errors": {
+        "nameRequired": "姓名为必填项。",
+        "generic": "出现错误，请稍后再试。"
+      }
+    }
+  }
+}

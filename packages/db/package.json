@@ -1,0 +1,24 @@
+{
+  "name": "@workspace/db",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "predev": "docker-compose --profile dev --env-file ../../apps/web/.env.local -f ./docker-compose.yml up -d && drizzle-kit push",
+    "dev": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun run src/migrate.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.8"
+  }
+}

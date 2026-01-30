@@ -1,0 +1,67 @@
+---
+title: Next App — Battery‑included Full‑Stack Boilerplate
+description: A production-ready Next.js 16 monorepo boilerplate with auth, database, docs, i18n, and modern tooling—wired end-to-end.
+---
+
+Next App is a **battery‑included full‑stack boilerplate** for teams who want to ship a real product fast—without spending the first week wiring auth, database, i18n, docs, and tooling.
+
+If you’re looking for a **Next.js boilerplate**, **full‑stack starter**, or **production monorepo template**, this is designed to be a clean baseline you can keep long-term.
+
+## What you get (out of the box)
+
+- **Next.js 16 App Router** with React 19 and Turbopack
+- **Monorepo** setup with Turborepo + Bun workspaces
+- **Auth** via Better Auth (email/password; OAuth-ready)
+- **Database** via Drizzle ORM + Neon Postgres (serverless)
+- **UI** via Tailwind CSS 4 + shadcn/ui (shared `@workspace/ui`)
+- **Docs site** via Fumadocs (MDX + full-text search)
+- **Internationalization** via next-intl (English + Chinese)
+- **Quality tooling** via Ultracite (Biome lint/format)
+- **Type safety** via TypeScript 5.9 + Zod validation
+
+## Quick start
+
+```bash
+# Install dependencies
+bun install
+
+# Start dev (turborepo)
+bun run dev
+
+# Production build
+bun run build
+```
+
+## Tech stack (pre-wired)
+
+- **Framework**: Next.js 16 (App Router), React 19, Turbopack
+- **Package manager / monorepo**: Bun + Turborepo
+- **Database**: Drizzle ORM + Neon PostgreSQL
+- **Authentication**: Better Auth
+- **Styling**: Tailwind CSS 4 + shadcn/ui
+- **Docs**: Fumadocs (MDX + search)
+- **i18n**: next-intl (EN + ZH)
+- **Code quality**: Ultracite (Biome-based)
+- **Validation**: Zod
+
+## Project structure (high level)
+
+```text
+apps/web          Next.js app (App Router + localized routes)
+packages/db       Drizzle schema + database client
+packages/ui       Shared shadcn/ui components + Tailwind globals
+packages/typescript-config Shared TS configs
+```
+
+## When to use this boilerplate
+
+- You want a **production-ready Next.js starter** with sane defaults.
+- You need **auth + database** integrated end-to-end.
+- You’re building a multilingual app (English + Chinese) from day one.
+- You want docs that live in the repo and ship with the product.
+
+## Next steps
+
+- Browse the docs nav to explore i18n, auth, and DB setup.
+- Customize the UI primitives in `packages/ui`.
+- Add your product pages under `apps/web/app/[locale]`.

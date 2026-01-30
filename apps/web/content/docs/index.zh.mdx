@@ -1,0 +1,67 @@
+---
+title: Next App — 开箱即用的全栈脚手架
+description: 一个生产级 Next.js 16 Monorepo 模板，内置认证、数据库、文档、国际化与现代工具链，端到端预集成。
+---
+
+Next App 是一个 **“电池已装好”的全栈脚手架**：适合想快速把产品跑起来的团队，而不是把第一周都花在把认证、数据库、国际化、文档和工具链接上线。
+
+如果你正在寻找 **Next.js 脚手架**、**全栈 Starter** 或 **生产级 Monorepo 模板**，它提供的是一套足够干净、可长期维护的基线。
+
+## 开箱即用（自带能力）
+
+- **Next.js 16 App Router**（React 19 + Turbopack）
+- **Monorepo**（Turborepo + Bun workspaces）
+- **认证**：Better Auth（邮箱/密码；可扩展 OAuth）
+- **数据库**：Drizzle ORM + Neon Postgres（serverless）
+- **UI**：Tailwind CSS 4 + shadcn/ui（共享 `@workspace/ui`）
+- **文档站**：Fumadocs（MDX + 全文搜索）
+- **国际化**：next-intl（英文 + 中文）
+- **质量工具**：Ultracite（Biome lint/format）
+- **类型安全**：TypeScript 5.9 + Zod 校验
+
+## 快速开始
+
+```bash
+# 安装依赖
+bun install
+
+# 启动开发（turborepo）
+bun run dev
+
+# 生产构建
+bun run build
+```
+
+## 技术栈（已预先集成）
+
+- **框架**：Next.js 16（App Router）、React 19、Turbopack
+- **包管理 / Monorepo**：Bun + Turborepo
+- **数据库**：Drizzle ORM + Neon PostgreSQL
+- **认证**：Better Auth
+- **样式**：Tailwind CSS 4 + shadcn/ui
+- **文档**：Fumadocs（MDX + 搜索）
+- **国际化**：next-intl（EN + ZH）
+- **代码质量**：Ultracite（基于 Biome）
+- **校验**：Zod
+
+## 项目结构（概览）
+
+```text
+apps/web          Next.js 应用（App Router + 多语言路由）
+packages/db       Drizzle Schema + 数据库客户端
+packages/ui       共享的 shadcn/ui 组件 + Tailwind 全局样式
+packages/typescript-config 共享的 TS 配置
+```
+
+## 适用场景
+
+- 你想要一个 **生产级 Next.js Starter**，默认配置合理且不臃肿。
+- 你需要 **认证 + 数据库** 端到端打通。
+- 你从第一天就要做多语言（英文 + 中文）。
+- 你希望文档和产品同仓库、同版本发布。
+
+## 下一步
+
+- 通过左侧导航浏览 i18n、认证与数据库相关内容。
+- 在 `packages/ui` 里定制 UI 基础组件与风格。
+- 在 `apps/web/app/[locale]` 下新增产品页面。

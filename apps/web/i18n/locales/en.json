@@ -1,0 +1,103 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog"
+  },
+  "page": {
+    "home": {
+      "brand": "Next App",
+      "brandSubtitle": "Battery‑included full‑stack boilerplate",
+      "header": {
+        "signIn": "Sign in",
+        "signUp": "Create account",
+        "profile": "Profile"
+      },
+      "kicker": "Production-ready Next.js 16 monorepo template",
+      "title": "Ship faster with a battery‑included full‑stack boilerplate",
+      "subtitle": "Auth, database, docs, i18n, and modern tooling—already wired. Minimal defaults, maximum leverage.",
+      "cta": {
+        "docs": "Read docs",
+        "stack": "See what’s inside",
+        "openDocs": "Open documentation"
+      },
+      "batteries": {
+        "title": "Batteries included",
+        "auth": "Authentication",
+        "db": "Database",
+        "docs": "Documentation",
+        "i18n": "Internationalization",
+        "quality": "Code quality",
+        "deploy": "Deployment"
+      },
+      "stack": {
+        "title": "Tech stack",
+        "subtitle": "The essentials are pre-wired; swap pieces as needed."
+      },
+      "structure": {
+        "title": "Monorepo structure",
+        "subtitle": "A clean split between the product app and reusable packages."
+      },
+      "footer": "Built for Bun + Turborepo + Vercel. Opinionated, but easy to change."
+    },
+    "auth": {
+      "title": "Sign in to continue",
+      "subtitle": "Use email + password. Create an account in seconds.",
+      "tabs": {
+        "signIn": "Sign in",
+        "signUp": "Sign up"
+      },
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "name": "Jane Doe",
+        "email": "you@company.com",
+        "password": "Your password"
+      },
+      "actions": {
+        "show": "Show",
+        "hide": "Hide"
+      },
+      "cta": {
+        "signIn": "Sign in",
+        "signUp": "Create account"
+      },
+      "errors": {
+        "missing": "Please fill in all required fields.",
+        "generic": "Something went wrong. Please try again."
+      }
+    },
+    "profile": {
+      "title": "Your profile",
+      "subtitle": "Update your account details. Changes are saved to your Better Auth user record.",
+      "account": "Account",
+      "email": "Email",
+      "userId": "User ID",
+      "fields": {
+        "name": "Name",
+        "company": "Company",
+        "website": "Website",
+        "avatar": "Avatar URL",
+        "bio": "Bio"
+      },
+      "placeholders": {
+        "name": "Jane Doe",
+        "company": "Acme Inc.",
+        "website": "https://example.com",
+        "avatar": "https://.../avatar.png",
+        "bio": "A short bio (what you build, what you care about)."
+      },
+      "cta": {
+        "save": "Save changes",
+        "signOut": "Sign out"
+      },
+      "saved": "Saved.",
+      "errors": {
+        "nameRequired": "Name is required.",
+        "generic": "Something went wrong. Please try again."
+      }
+    }
+  }
+}

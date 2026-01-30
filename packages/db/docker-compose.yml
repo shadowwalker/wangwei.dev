@@ -1,0 +1,17 @@
+# LOCAL DEVELOPMENT ONLY
+name: ${PROJECT_NAME}
+services:
+  db:
+    image: neondatabase/neon_local:latest
+    container_name: ${PROJECT_NAME}_neon_local
+    ports:
+      - '5432:5432'
+    environment:
+      NEON_API_KEY: ${NEON_API_KEY}
+      NEON_PROJECT_ID: ${NEON_PROJECT_ID}
+      DRIVER: serverless
+    profiles:
+      - dev
+
+volumes:
+  data:

@@ -1,0 +1,50 @@
+pre-commit:
+  jobs:
+    - name: Fix Formatting
+      run: bun run fix
+      glob: 
+        - "*.js"
+        - "*.jsx"
+        - "*.ts"
+        - "*.tsx"
+        - "*.json"
+        - "*.jsonc"
+        - "*.css"
+      stage_fixed: true
+    
+    - name: Build Project
+      run: bun run build
+      glob: 
+        - "apps/**/*.js"
+        - "apps/**/*.jsx"
+        - "apps/**/*.ts"
+        - "apps/**/*.tsx"
+        - "apps/**/*.json"
+        - "apps/**/*.jsonc"
+        - "apps/**/*.css"
+        - "packages/**/*.js"
+        - "packages/**/*.jsx"
+        - "packages/**/*.ts"
+        - "packages/**/*.tsx"
+        - "packages/**/*.json"
+        - "packages/**/*.jsonc"
+        - "packages/**/*.css"
+    
+    - name: Generate DB Schema
+      run: bun run --filter './packages/db' db:generate
+      glob:
+        - "packages/db/src/schema.ts"
+        - "packages/db/src/schema/**/*.ts"
+      stage_fixed: true
+        
+    - name: Check i18n Usage
+      run: bunx --bun @lingual/i18n-check@latest --source en --locales apps/web/i18n/locales --unused apps/web/i18n/routing.ts
+      glob: 
+        - "apps/**/*.js"
+        - "apps/**/*.jsx"
+        - "apps/**/*.ts"
+        - "apps/**/*.tsx"
+        - "apps/**/*.json"
+        - "apps/**/*.jsonc"
+        - "apps/**/*.css"
+      tags: web

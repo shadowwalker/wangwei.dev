@@ -1,9 +1,11 @@
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Agentation } from 'agentation'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale } from 'next-intl'
 import { Providers } from '@/components/providers'
 import { routing } from '@/i18n/routing'
+import { env } from '@/lib/env/client'
 
 import '@workspace/ui/globals.css'
 
@@ -35,6 +37,9 @@ export default async function RootLayout({
       >
         <Providers locale={locale}>{children}</Providers>
         {process.env.NODE_ENV === 'development' && <Agentation />}
+        {process.env.NODE_ENV !== 'development' && (
+          <GoogleAnalytics gaId={env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
+        )}
       </body>
     </html>
   )

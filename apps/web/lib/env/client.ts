@@ -3,11 +3,7 @@ import { z } from 'zod'
 
 export const env = createEnv({
   client: {
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z
-      .string()
-      .regex(/^G-\w{10,}$/)
-      // TODO: remove this once we have a valid GA ID
-      .optional()
+    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z.string().regex(/^G-\w{10,}$/)
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID

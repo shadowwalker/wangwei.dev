@@ -1,7 +1,14 @@
 {
   "nav": {
     "home": "Home",
-    "blog": "Blog"
+    "blog": "Blog",
+    "docs": "Docs",
+    "resume": "Resume"
+  },
+  "ui": {
+    "profile": "Profile",
+    "signIn": "Sign In",
+    "language": "Language"
   },
   "page": {
     "home": {

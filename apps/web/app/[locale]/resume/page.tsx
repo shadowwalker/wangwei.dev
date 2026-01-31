@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger
 } from '@workspace/ui/components/dropdown-menu'
 import { Download, Link as LinkIcon, MoreVertical, Printer } from 'lucide-react'
+import LanguageSwitchButton from '@/components/language-switch-button'
 import { ResumePaper } from './_/resume'
 
 export default function Page() {
@@ -26,7 +27,8 @@ export default function Page() {
   return (
     <div className='min-h-screen py-8 print:p-0'>
       <div className='mx-auto flex max-w-[210mm] flex-col items-end gap-4 px-4 print:max-w-none print:px-0'>
-        <div className='print:hidden'>
+        <div className='flex gap-2 print:hidden'>
+          <LanguageSwitchButton />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button size='icon' variant='outline'>

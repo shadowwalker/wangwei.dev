@@ -1,7 +1,14 @@
 {
   "nav": {
     "home": "首页",
-    "blog": "博客"
+    "blog": "博客",
+    "docs": "文档",
+    "resume": "简历"
+  },
+  "ui": {
+    "profile": "个人资料",
+    "signIn": "登录",
+    "language": "切换语言"
   },
   "page": {
     "home": {

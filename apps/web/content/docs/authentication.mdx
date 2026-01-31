@@ -1,0 +1,129 @@
+---
+title: Authentication
+description: Learn how to set up and customize authentication with Better Auth in your Next.js application.
+---
+
+This guide covers authentication setup using **Better Auth**, a flexible authentication library that integrates seamlessly with Next.js and Drizzle ORM.
+
+## Overview
+
+Better Auth provides:
+
+- **Email/password authentication** out of the box
+- **OAuth providers** (Google, GitHub, etc.)
+- **Session management** with secure cookies
+- **Database adapter** for Drizzle ORM
+
+## Configuration
+
+The auth configuration lives in `apps/web/lib/auth.ts`:
+
+```typescript
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { db } from '@workspace/db'
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: 'pg',
+  }),
+  emailAndPassword: {
+    enabled: true,
+  },
+})
+```
+
+## Client-Side Usage
+
+Use the auth client helpers in your components:
+
+```tsx
+import { signIn, signUp, signOut, useSession } from '@/lib/auth-client'
+
+export function AuthButton() {
+  const { data: session } = useSession()
+
+  if (session) {
+    return <button onClick={() => signOut()}>Sign Out</button>
+  }
+
+  return <button onClick={() => signIn.email({ email, password })}>Sign In</button>
+}
+```
+
+## Server-Side Usage
+
+Check authentication status in Server Components:
+
+```tsx
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
+
+export default async function ProtectedPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    redirect('/auth')
+  }
+
+  return <div>Welcome, {session.user.name}</div>
+}
+```
+
+## Database Schema
+
+Auth tables are defined in `packages/db/src/schema.ts`:
+
+- `user` — User accounts
+- `session` — Active sessions
+- `account` — OAuth provider links
+- `verification` — Email verification tokens
+
+## Adding OAuth Providers
+
+To add Google OAuth:
+
+```typescript
+import { betterAuth } from 'better-auth'
+
+export const auth = betterAuth({
+  // ... existing config
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+  },
+})
+```
+
+## Protected Routes
+
+Create a reusable auth check:
+
+```typescript
+// lib/auth-guard.ts
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+
+export async function requireAuth() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session) {
+    redirect('/auth')
+  }
+
+  return session
+}
+```
+
+## Next Steps
+
+- Configure OAuth providers for social login
+- Customize the auth UI components
+- Add role-based access control

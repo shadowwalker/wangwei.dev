@@ -1,5 +1,5 @@
 import { Agentation } from 'agentation'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale } from 'next-intl'
 import { Providers } from '@/components/providers'
@@ -7,12 +7,13 @@ import { routing } from '@/i18n/routing'
 
 import '@workspace/ui/globals.css'
 
-const fontSans = Geist({
+const fontSans = Inter({
   subsets: ['latin'],
-  variable: '--font-sans'
+  variable: '--font-sans',
+  weight: ['300', '400', '500', '600', '700', '900']
 })
 
-const fontMono = Geist_Mono({
+const fontMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono'
 })

@@ -1,0 +1,155 @@
+---
+title: Database
+description: Set up and work with Drizzle ORM and Neon PostgreSQL in your Next.js application.
+---
+
+This guide covers database setup using **Drizzle ORM** with **Neon PostgreSQL**, a serverless Postgres provider that scales automatically.
+
+## Overview
+
+The database package (`@workspace/db`) provides:
+
+- **Drizzle ORM** for type-safe database queries
+- **Neon PostgreSQL** serverless driver
+- **Drizzle Studio** for visual database management
+- **Schema-first migrations** with `drizzle-kit`
+
+## Local Development
+
+Start the local Neon database with Docker:
+
+```bash
+cd packages/db
+bun run predev    # Starts Docker + pushes schema
+bun run dev       # Opens Drizzle Studio
+```
+
+This spins up a local Neon-compatible Postgres instance for development.
+
+## Schema Definition
+
+Define your tables in `packages/db/src/schema.ts`:
+
+```typescript
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+
+// Base schema helper (required for all tables)
+const baseSchema = {
+  id: uuid('id').primaryKey().defaultRandom(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}
+
+export const posts = pgTable('posts', {
+  ...baseSchema,
+  title: text('title').notNull(),
+  content: text('content'),
+  authorId: uuid('author_id').references(() => user.id),
+})
+```
+
+## Using the Database Client
+
+Import and use the database client:
+
+```typescript
+import { db } from '@workspace/db'
+import { posts } from '@workspace/db/schema'
+import { eq } from 'drizzle-orm'
+
+// Select all posts
+const allPosts = await db.select().from(posts)
+
+// Select with filter
+const userPosts = await db
+  .select()
+  .from(posts)
+  .where(eq(posts.authorId, userId))
+
+// Insert
+await db.insert(posts).values({
+  title: 'My First Post',
+  content: 'Hello, world!',
+  authorId: userId,
+})
+
+// Update
+await db
+  .update(posts)
+  .set({ title: 'Updated Title' })
+  .where(eq(posts.id, postId))
+
+// Delete
+await db.delete(posts).where(eq(posts.id, postId))
+```
+
+## Schema Migrations
+
+Push schema changes to the database:
+
+```bash
+cd packages/db
+bunx drizzle-kit push
+```
+
+Generate migration files (optional):
+
+```bash
+bunx drizzle-kit generate
+```
+
+## Drizzle Studio
+
+Drizzle Studio provides a visual interface for your database:
+
+```bash
+cd packages/db
+bun run dev
+```
+
+Open `https://local.drizzle.studio` to browse and edit data.
+
+## Relations
+
+Define relations between tables:
+
+```typescript
+import { relations } from 'drizzle-orm'
+
+export const postsRelations = relations(posts, ({ one }) => ({
+  author: one(user, {
+    fields: [posts.authorId],
+    references: [user.id],
+  }),
+}))
+
+export const userRelations = relations(user, ({ many }) => ({
+  posts: many(posts),
+}))
+```
+
+Query with relations:
+
+```typescript
+const postsWithAuthor = await db.query.posts.findMany({
+  with: {
+    author: true,
+  },
+})
+```
+
+## Environment Variables
+
+Configure the database connection in `.env.local`:
+
+```bash
+DATABASE_URL="postgresql://user:password@host:5432/database"
+```
+
+For Neon, use the serverless connection string from your dashboard.
+
+## Next Steps
+
+- Define your application schema
+- Set up relations between tables
+- Use Drizzle Studio for data exploration

@@ -1,5 +1,4 @@
 import { getLocale, getTranslations } from 'next-intl/server'
-import SiteHeader from '@/components/site-header'
 import { Link } from '@/i18n/navigation'
 import { blogSource } from '@/lib/source'
 
@@ -9,10 +8,9 @@ interface BlogListData {
   date: string | Date
 }
 
-export default async function Page() {
-  const t = await getTranslations('page.home')
+export default async function BlogIndexPage() {
   const locale = await getLocale()
-
+  const t = await getTranslations('page.blog')
   const posts = blogSource
     .getPages(locale)
     .map((post) => ({
@@ -27,22 +25,16 @@ export default async function Page() {
 
   return (
     <main className='min-h-screen'>
-      <SiteHeader />
-
       <section className='mx-auto max-w-4xl px-6 pt-20 pb-16 md:px-12 md:pt-32 md:pb-24'>
-        <h1 className='font-black font-sans text-7xl tracking-tighter md:text-[140px] md:leading-[0.9] md:tracking-[-0.04em]'>
-          {t('headline')}
+        <h1 className='font-black font-sans text-5xl tracking-tighter md:text-7xl md:tracking-[-0.04em]'>
+          {t('title')}
         </h1>
-        <p className='mt-8 max-w-lg font-light text-lg text-muted-foreground leading-relaxed md:mt-10 md:text-xl'>
-          {t('tagline')}
+        <p className='mt-6 max-w-lg font-light text-lg text-muted-foreground leading-relaxed'>
+          {t('subtitle')}
         </p>
       </section>
 
       <section className='mx-auto max-w-4xl px-6 pb-20 md:px-12'>
-        <div className='mb-10 font-medium text-muted-foreground/60 text-xs uppercase tracking-[0.2em]'>
-          {t('section.writing')}
-        </div>
-
         <div className='space-y-0'>
           {posts.map((post) => {
             const date = new Date(post.data.date)
@@ -78,38 +70,6 @@ export default async function Page() {
           })}
         </div>
       </section>
-
-      <footer className='mx-auto max-w-4xl border-t px-6 py-12 md:px-12'>
-        <div className='flex flex-col justify-between gap-6 md:flex-row md:items-center'>
-          <div className='text-muted-foreground/50 text-xs'>
-            {t('footer.location')}
-          </div>
-          <div className='flex gap-6'>
-            <a
-              className='text-muted-foreground/70 text-xs transition-colors hover:text-foreground'
-              href='https://twitter.com'
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              twitter
-            </a>
-            <a
-              className='text-muted-foreground/70 text-xs transition-colors hover:text-foreground'
-              href='https://github.com'
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              github
-            </a>
-            <a
-              className='text-muted-foreground/70 text-xs transition-colors hover:text-foreground'
-              href='mailto:hello@example.com'
-            >
-              email
-            </a>
-          </div>
-        </div>
-      </footer>
     </main>
   )
 }

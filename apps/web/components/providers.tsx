@@ -68,8 +68,7 @@ function FumadocsProviders({
           }
         }}
         search={{
-          enabled: LOCALES_CONFIG.find((l) => l.locale === locale)?.search
-            .enabled
+          enabled: true
         }}
       >
         {children}

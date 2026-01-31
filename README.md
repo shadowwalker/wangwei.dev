@@ -1,6 +1,14 @@
-# Next App
+# Wei Wang - Personal Website
 
-A production-ready Next.js 16 monorepo template with documentation, internationalization, and modern tooling.
+A minimalist personal website built with Next.js 16, featuring a Swiss Bold typographic design.
+
+## Design
+
+The homepage uses a Swiss-inspired typography-first design:
+- **Background**: Benjamin Moore OC-17 White Dove (#EFEEE5) - warm cream
+- **Typography**: Inter with Black (900) weight for headlines
+- **Layout**: Single column, typography-driven, no visual boxes
+- **Theme**: Warm light mode + complementary dark mode
 
 ## Tech Stack
 

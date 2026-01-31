@@ -1,15 +1,15 @@
 import { notFound } from 'next/navigation'
 import { getLLMText } from '@/lib/get-llm-text'
-import { docsSource } from '@/lib/source'
+import { blogSource } from '@/lib/source'
 
 export const revalidate = false
 
 export async function GET(
   _req: Request,
-  { params }: RouteContext<'/[locale]/llms.mdx/docs/[[...slug]]'>
+  { params }: RouteContext<'/[locale]/llms.mdx/blog/[[...slug]]'>
 ) {
   const { slug, locale } = await params
-  const page = docsSource.getPage(slug, locale)
+  const page = blogSource.getPage(slug, locale)
   if (!page) {
     notFound()
   }
@@ -22,5 +22,5 @@ export async function GET(
 }
 
 export function generateStaticParams() {
-  return docsSource.generateParams('slug', 'locale')
+  return blogSource.generateParams('slug', 'locale')
 }

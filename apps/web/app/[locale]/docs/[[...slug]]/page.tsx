@@ -8,14 +8,14 @@ import { createRelativeLink } from 'fumadocs-ui/mdx'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { LLMCopyButton, ViewOptions } from '@/components/page-actions'
-import { source } from '@/lib/source'
+import { docsSource } from '@/lib/source'
 import { getMDXComponents } from '@/mdx-components'
 
 export default async function Page(
   props: PageProps<'/[locale]/docs/[[...slug]]'>
 ) {
   const params = await props.params
-  const page = source.getPage(params.slug, params.locale)
+  const page = docsSource.getPage(params.slug, params.locale)
   if (!page) {
     notFound()
   }
@@ -38,7 +38,7 @@ export default async function Page(
           components={getMDXComponents({
             // this allows you to link to other pages with relative file paths
             // @ts-expect-error - TODO: seems to be a bug for fumadocs
-            a: createRelativeLink(source, page)
+            a: createRelativeLink(docsSource, page)
           })}
         />
       </DocsBody>
@@ -47,14 +47,14 @@ export default async function Page(
 }
 
 export async function generateStaticParams() {
-  return source.generateParams('slug', 'locale')
+  return docsSource.generateParams('slug', 'locale')
 }
 
 export async function generateMetadata(
   props: PageProps<'/[locale]/docs/[[...slug]]'>
 ): Promise<Metadata> {
   const params = await props.params
-  const page = source.getPage(params.slug, params.locale)
+  const page = docsSource.getPage(params.slug, params.locale)
   if (!page) {
     notFound()
   }

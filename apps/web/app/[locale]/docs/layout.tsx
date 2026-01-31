@@ -1,7 +1,7 @@
 import { DocsLayout } from 'fumadocs-ui/layouts/docs'
 import type { Locale } from 'next-intl'
 import { baseOptions } from '@/lib/layout.shared'
-import { source } from '@/lib/source'
+import { docsSource } from '@/lib/source'
 
 export default async function Layout({
   children,
@@ -11,7 +11,7 @@ export default async function Layout({
   return (
     <DocsLayout
       {...baseOptions(locale as Locale)}
-      tree={source.getPageTree(locale)}
+      tree={docsSource.getPageTree(locale)}
     >
       {children}
     </DocsLayout>

@@ -5,39 +5,28 @@
   },
   "page": {
     "home": {
-      "brand": "Next App",
-      "brandSubtitle": "Battery‑included full‑stack boilerplate",
+      "headline": "Wei Wang.",
+      "tagline": "I write about building things on the internet, thinking through problems, and the occasional wandering thought.",
+      "nav": {
+        "writing": "writing",
+        "about": "about"
+      },
       "header": {
-        "signIn": "Sign in",
+        "signIn": "sign in",
         "signUp": "Create account",
-        "profile": "Profile"
+        "profile": "profile"
       },
-      "kicker": "Production-ready Next.js 16 monorepo template",
-      "title": "Ship faster with a battery‑included full‑stack boilerplate",
-      "subtitle": "Auth, database, docs, i18n, and modern tooling—already wired. Minimal defaults, maximum leverage.",
-      "cta": {
-        "docs": "Read docs",
-        "stack": "See what’s inside",
-        "openDocs": "Open documentation"
+      "section": {
+        "writing": "Writing"
       },
-      "batteries": {
-        "title": "Batteries included",
-        "auth": "Authentication",
-        "db": "Database",
-        "docs": "Documentation",
-        "i18n": "Internationalization",
-        "quality": "Code quality",
-        "deploy": "Deployment"
-      },
-      "stack": {
-        "title": "Tech stack",
-        "subtitle": "The essentials are pre-wired; swap pieces as needed."
-      },
-      "structure": {
-        "title": "Monorepo structure",
-        "subtitle": "A clean split between the product app and reusable packages."
-      },
-      "footer": "Built for Bun + Turborepo + Vercel. Opinionated, but easy to change."
+      "footer": {
+        "location": "Wei Wang · Seattle"
+      }
+    },
+    "blog": {
+      "title": "Writing.",
+      "subtitle": "Thoughts on building, creating, and figuring things out.",
+      "back": "Back to writing"
     },
     "auth": {
       "title": "Sign in to continue",

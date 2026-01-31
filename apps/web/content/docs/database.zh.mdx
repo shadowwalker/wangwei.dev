@@ -1,0 +1,155 @@
+---
+title: 数据库
+description: 在 Next.js 应用中配置和使用 Drizzle ORM 与 Neon PostgreSQL。
+---
+
+本指南介绍如何使用 **Drizzle ORM** 配合 **Neon PostgreSQL**（一个自动扩展的 Serverless Postgres 服务）进行数据库配置。
+
+## 概述
+
+数据库包（`@workspace/db`）提供：
+
+- **Drizzle ORM**：类型安全的数据库查询
+- **Neon PostgreSQL**：Serverless 驱动
+- **Drizzle Studio**：可视化数据库管理
+- **Schema 优先迁移**：使用 `drizzle-kit`
+
+## 本地开发
+
+使用 Docker 启动本地 Neon 数据库：
+
+```bash
+cd packages/db
+bun run predev    # 启动 Docker + 推送 Schema
+bun run dev       # 打开 Drizzle Studio
+```
+
+这将启动一个本地 Neon 兼容的 Postgres 实例用于开发。
+
+## Schema 定义
+
+在 `packages/db/src/schema.ts` 中定义表结构：
+
+```typescript
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+
+// 基础 Schema 助手（所有表必须使用）
+const baseSchema = {
+  id: uuid('id').primaryKey().defaultRandom(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}
+
+export const posts = pgTable('posts', {
+  ...baseSchema,
+  title: text('title').notNull(),
+  content: text('content'),
+  authorId: uuid('author_id').references(() => user.id),
+})
+```
+
+## 使用数据库客户端
+
+导入并使用数据库客户端：
+
+```typescript
+import { db } from '@workspace/db'
+import { posts } from '@workspace/db/schema'
+import { eq } from 'drizzle-orm'
+
+// 查询所有文章
+const allPosts = await db.select().from(posts)
+
+// 带条件查询
+const userPosts = await db
+  .select()
+  .from(posts)
+  .where(eq(posts.authorId, userId))
+
+// 插入
+await db.insert(posts).values({
+  title: '我的第一篇文章',
+  content: '你好，世界！',
+  authorId: userId,
+})
+
+// 更新
+await db
+  .update(posts)
+  .set({ title: '更新后的标题' })
+  .where(eq(posts.id, postId))
+
+// 删除
+await db.delete(posts).where(eq(posts.id, postId))
+```
+
+## Schema 迁移
+
+将 Schema 变更推送到数据库：
+
+```bash
+cd packages/db
+bunx drizzle-kit push
+```
+
+生成迁移文件（可选）：
+
+```bash
+bunx drizzle-kit generate
+```
+
+## Drizzle Studio
+
+Drizzle Studio 提供数据库的可视化界面：
+
+```bash
+cd packages/db
+bun run dev
+```
+
+打开 `https://local.drizzle.studio` 浏览和编辑数据。
+
+## 关联关系
+
+定义表之间的关联：
+
+```typescript
+import { relations } from 'drizzle-orm'
+
+export const postsRelations = relations(posts, ({ one }) => ({
+  author: one(user, {
+    fields: [posts.authorId],
+    references: [user.id],
+  }),
+}))
+
+export const userRelations = relations(user, ({ many }) => ({
+  posts: many(posts),
+}))
+```
+
+带关联查询：
+
+```typescript
+const postsWithAuthor = await db.query.posts.findMany({
+  with: {
+    author: true,
+  },
+})
+```
+
+## 环境变量
+
+在 `.env.local` 中配置数据库连接：
+
+```bash
+DATABASE_URL="postgresql://user:password@host:5432/database"
+```
+
+对于 Neon，使用仪表板中的 Serverless 连接字符串。
+
+## 下一步
+
+- 定义应用 Schema
+- 设置表之间的关联
+- 使用 Drizzle Studio 探索数据

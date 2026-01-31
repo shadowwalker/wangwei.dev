@@ -5,39 +5,28 @@
   },
   "page": {
     "home": {
-      "brand": "Next App",
-      "brandSubtitle": "开箱即用的全栈脚手架",
+      "headline": "王巍.",
+      "tagline": "我写关于在互联网上构建产品、思考问题、以及偶尔的随想。",
+      "nav": {
+        "writing": "文章",
+        "about": "关于"
+      },
       "header": {
         "signIn": "登录",
         "signUp": "创建账号",
         "profile": "个人资料"
       },
-      "kicker": "生产级 Next.js 16 Monorepo 模板",
-      "title": "用“开箱即用”的全栈模板更快交付",
-      "subtitle": "认证、数据库、文档、国际化与现代化工具链——全部提前接好线。极简默认配置，最大化效率。",
-      "cta": {
-        "docs": "阅读文档",
-        "stack": "查看包含内容",
-        "openDocs": "打开文档"
+      "section": {
+        "writing": "文章"
       },
-      "batteries": {
-        "title": "开箱即用",
-        "auth": "认证",
-        "db": "数据库",
-        "docs": "文档",
-        "i18n": "国际化",
-        "quality": "代码质量",
-        "deploy": "部署"
-      },
-      "stack": {
-        "title": "技术栈",
-        "subtitle": "核心能力已预先集成；需要时可随时替换。"
-      },
-      "structure": {
-        "title": "Monorepo 结构",
-        "subtitle": "产品应用与可复用包清晰拆分。"
-      },
-      "footer": "为 Bun + Turborepo + Vercel 设计。带观点，但易于调整。"
+      "footer": {
+        "location": "王巍 · 西雅图"
+      }
+    },
+    "blog": {
+      "title": "文章.",
+      "subtitle": "关于构建、创造和想明白事情的思考。",
+      "back": "返回文章列表"
     },
     "auth": {
       "title": "登录以继续",

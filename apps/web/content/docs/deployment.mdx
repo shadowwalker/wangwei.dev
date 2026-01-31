@@ -1,0 +1,181 @@
+---
+title: Deployment
+description: Deploy your Next.js application to Vercel, Docker, or other platforms.
+---
+
+This guide covers deploying your Next.js application to production environments.
+
+## Vercel (Recommended)
+
+The project is pre-configured for Vercel deployment with Bun runtime.
+
+### One-Click Deploy
+
+1. Push your code to GitHub
+2. Import the repository in Vercel
+3. Configure environment variables
+4. Deploy
+
+### Environment Variables
+
+Set these in your Vercel project settings:
+
+```bash
+# Database
+DATABASE_URL="postgresql://..."
+
+# Auth
+BETTER_AUTH_SECRET="your-secret-key"
+BETTER_AUTH_URL="https://your-domain.com"
+
+# Optional: OAuth
+GOOGLE_CLIENT_ID="..."
+GOOGLE_CLIENT_SECRET="..."
+```
+
+### Build Settings
+
+Vercel auto-detects the monorepo structure. Default settings:
+
+- **Framework**: Next.js
+- **Root Directory**: `apps/web`
+- **Build Command**: `cd ../.. && bun run build`
+- **Install Command**: `bun install`
+
+## Docker
+
+Build and run with Docker:
+
+```dockerfile
+# Dockerfile
+FROM oven/bun:1 AS base
+
+# Install dependencies
+FROM base AS deps
+WORKDIR /app
+COPY package.json bun.lock ./
+COPY apps/web/package.json ./apps/web/
+COPY packages/*/package.json ./packages/*/
+RUN bun install --frozen-lockfile
+
+# Build
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN bun run build
+
+# Production
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /app/apps/web/.next/standalone ./
+COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder /app/apps/web/public ./apps/web/public
+
+EXPOSE 3000
+CMD ["bun", "apps/web/server.js"]
+```
+
+Build and run:
+
+```bash
+docker build -t my-app .
+docker run -p 3000:3000 --env-file .env.production my-app
+```
+
+## Self-Hosted
+
+### Prerequisites
+
+- Node.js 20+ or Bun 1.0+
+- PostgreSQL database (or Neon account)
+
+### Build Steps
+
+```bash
+# Install dependencies
+bun install
+
+# Build all packages
+bun run build
+
+# Start production server
+cd apps/web
+bun run start
+```
+
+### Process Manager
+
+Use PM2 for production:
+
+```bash
+npm install -g pm2
+
+# Start with PM2
+pm2 start bun --name "my-app" -- run start
+
+# Save process list
+pm2 save
+
+# Setup startup script
+pm2 startup
+```
+
+## Database Setup
+
+### Neon (Recommended)
+
+1. Create a Neon project at [neon.tech](https://neon.tech)
+2. Copy the connection string
+3. Set `DATABASE_URL` environment variable
+4. Push schema: `bunx drizzle-kit push`
+
+### Self-Hosted PostgreSQL
+
+```bash
+# Create database
+createdb myapp_production
+
+# Set connection string
+export DATABASE_URL="postgresql://user:pass@localhost:5432/myapp_production"
+
+# Push schema
+cd packages/db
+bunx drizzle-kit push
+```
+
+## Environment Checklist
+
+Before deploying, verify:
+
+- [ ] `DATABASE_URL` points to production database
+- [ ] `BETTER_AUTH_SECRET` is a strong random string
+- [ ] `BETTER_AUTH_URL` matches your production URL
+- [ ] OAuth credentials are configured for production
+- [ ] Schema is pushed to production database
+
+## Monitoring
+
+### Error Tracking
+
+Add Sentry for error tracking:
+
+```bash
+bun add @sentry/nextjs
+```
+
+### Analytics
+
+Add Vercel Analytics:
+
+```bash
+bun add @vercel/analytics
+```
+
+## Next Steps
+
+- Set up CI/CD pipelines
+- Configure custom domains
+- Add monitoring and alerting

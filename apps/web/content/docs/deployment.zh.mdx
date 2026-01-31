@@ -1,0 +1,181 @@
+---
+title: 部署
+description: 将 Next.js 应用部署到 Vercel、Docker 或其他平台。
+---
+
+本指南介绍如何将 Next.js 应用部署到生产环境。
+
+## Vercel（推荐）
+
+项目已预配置为使用 Bun 运行时部署到 Vercel。
+
+### 一键部署
+
+1. 将代码推送到 GitHub
+2. 在 Vercel 中导入仓库
+3. 配置环境变量
+4. 部署
+
+### 环境变量
+
+在 Vercel 项目设置中配置：
+
+```bash
+# 数据库
+DATABASE_URL="postgresql://..."
+
+# 认证
+BETTER_AUTH_SECRET="your-secret-key"
+BETTER_AUTH_URL="https://your-domain.com"
+
+# 可选：OAuth
+GOOGLE_CLIENT_ID="..."
+GOOGLE_CLIENT_SECRET="..."
+```
+
+### 构建设置
+
+Vercel 自动检测 Monorepo 结构。默认设置：
+
+- **框架**：Next.js
+- **根目录**：`apps/web`
+- **构建命令**：`cd ../.. && bun run build`
+- **安装命令**：`bun install`
+
+## Docker
+
+使用 Docker 构建和运行：
+
+```dockerfile
+# Dockerfile
+FROM oven/bun:1 AS base
+
+# 安装依赖
+FROM base AS deps
+WORKDIR /app
+COPY package.json bun.lock ./
+COPY apps/web/package.json ./apps/web/
+COPY packages/*/package.json ./packages/*/
+RUN bun install --frozen-lockfile
+
+# 构建
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN bun run build
+
+# 生产环境
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /app/apps/web/.next/standalone ./
+COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder /app/apps/web/public ./apps/web/public
+
+EXPOSE 3000
+CMD ["bun", "apps/web/server.js"]
+```
+
+构建和运行：
+
+```bash
+docker build -t my-app .
+docker run -p 3000:3000 --env-file .env.production my-app
+```
+
+## 自托管
+
+### 前置要求
+
+- Node.js 20+ 或 Bun 1.0+
+- PostgreSQL 数据库（或 Neon 账户）
+
+### 构建步骤
+
+```bash
+# 安装依赖
+bun install
+
+# 构建所有包
+bun run build
+
+# 启动生产服务器
+cd apps/web
+bun run start
+```
+
+### 进程管理器
+
+使用 PM2 管理生产进程：
+
+```bash
+npm install -g pm2
+
+# 使用 PM2 启动
+pm2 start bun --name "my-app" -- run start
+
+# 保存进程列表
+pm2 save
+
+# 设置开机自启
+pm2 startup
+```
+
+## 数据库配置
+
+### Neon（推荐）
+
+1. 在 [neon.tech](https://neon.tech) 创建项目
+2. 复制连接字符串
+3. 设置 `DATABASE_URL` 环境变量
+4. 推送 Schema：`bunx drizzle-kit push`
+
+### 自托管 PostgreSQL
+
+```bash
+# 创建数据库
+createdb myapp_production
+
+# 设置连接字符串
+export DATABASE_URL="postgresql://user:pass@localhost:5432/myapp_production"
+
+# 推送 Schema
+cd packages/db
+bunx drizzle-kit push
+```
+
+## 环境检查清单
+
+部署前请确认：
+
+- [ ] `DATABASE_URL` 指向生产数据库
+- [ ] `BETTER_AUTH_SECRET` 是强随机字符串
+- [ ] `BETTER_AUTH_URL` 与生产 URL 匹配
+- [ ] OAuth 凭证已配置为生产环境
+- [ ] Schema 已推送到生产数据库
+
+## 监控
+
+### 错误追踪
+
+添加 Sentry 进行错误追踪：
+
+```bash
+bun add @sentry/nextjs
+```
+
+### 数据分析
+
+添加 Vercel Analytics：
+
+```bash
+bun add @vercel/analytics
+```
+
+## 下一步
+
+- 设置 CI/CD 流水线
+- 配置自定义域名
+- 添加监控和告警

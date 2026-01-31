@@ -6,20 +6,13 @@ export const CUSTOM_LOCALE_HEADER = 'x-custom-locale'
 export const LOCALES_CONFIG: {
   name: string
   locale: Locale
-  search: { enabled: boolean }
 }[] = [
   {
     name: 'English',
-    locale: 'en',
-    search: {
-      enabled: true
-    }
+    locale: 'en'
   },
   {
     name: '简体中文',
-    locale: 'zh',
-    search: {
-      enabled: false
-    }
+    locale: 'zh'
   }
 ]

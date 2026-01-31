@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server'
+import SiteFooter from '@/components/site-footer'
 import SiteHeader from '@/components/site-header'
 import { Link } from '@/i18n/navigation'
 import { blogSource } from '@/lib/source'
@@ -29,21 +30,55 @@ export default async function Page() {
     <main className='min-h-screen'>
       <SiteHeader />
 
-      <section className='mx-auto max-w-4xl px-6 pt-20 pb-16 md:px-12 md:pt-32 md:pb-24'>
+      <section className='mx-auto max-w-4xl px-6 pt-32 pb-16 md:px-12 md:pt-48 md:pb-24'>
         <h1 className='font-black font-sans text-7xl tracking-tighter md:text-[140px] md:leading-[0.9] md:tracking-[-0.04em]'>
           {t('headline')}
         </h1>
-        <p className='mt-8 max-w-lg font-light text-lg text-muted-foreground leading-relaxed md:mt-10 md:text-xl'>
+        <div className='mt-12 w-24 border-foreground border-t md:mt-24 md:w-32' />
+        <p className='mt-8 max-w-lg font-light text-muted-foreground text-xl leading-relaxed md:mt-12 md:text-2xl'>
           {t('tagline')}
         </p>
       </section>
 
-      <section className='mx-auto max-w-4xl px-6 pb-20 md:px-12'>
-        <div className='mb-10 font-medium text-muted-foreground/60 text-xs uppercase tracking-[0.2em]'>
+      <div className='mx-auto max-w-4xl border-foreground/10 border-t' />
+
+      <section className='mx-auto max-w-4xl px-6 py-20 md:px-12'>
+        <div className='mb-12 font-light text-muted-foreground/60 text-xs uppercase tracking-[0.2em]'>
+          {t('section.experience')}
+        </div>
+
+        <div className='space-y-8'>
+          {(
+            ['amazon-ai', 'amazon-lmtt', 'roblox', 'microsoft', 'aws'] as const
+          ).map((key) => (
+            <div
+              className='grid grid-cols-1 gap-1 md:grid-cols-[120px_1fr] md:gap-12'
+              key={key}
+            >
+              <span className='pt-0.5 font-mono text-[11px] text-muted-foreground/50 tracking-wide'>
+                {t(`experience.${key}.period`)}
+              </span>
+              <div>
+                <h3 className='font-bold text-foreground text-lg tracking-tight'>
+                  {t(`experience.${key}.title`)}
+                </h3>
+                <p className='mt-1 font-light text-muted-foreground/70 text-sm'>
+                  {t(`experience.${key}.description`)}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className='mx-auto max-w-4xl border-foreground/10 border-t' />
+
+      <section className='mx-auto max-w-4xl px-6 py-20 md:px-12'>
+        <div className='mb-12 font-light text-muted-foreground/60 text-xs uppercase tracking-[0.2em]'>
           {t('section.writing')}
         </div>
 
-        <div className='space-y-0'>
+        <div className='space-y-12 md:space-y-16'>
           {posts.map((post) => {
             const date = new Date(post.data.date)
             const formattedDate = date.toLocaleDateString(locale, {
@@ -53,63 +88,35 @@ export default async function Page() {
 
             return (
               <article
-                className='group py-8 transition-colors first:pt-0'
+                className='group grid grid-cols-1 gap-4 transition-colors md:grid-cols-[120px_1fr] md:gap-12'
                 key={post.url}
               >
-                <time className='block font-mono text-[11px] text-muted-foreground/50 tracking-wide'>
+                <time className='block pt-1 font-mono text-[11px] text-muted-foreground/50 tracking-wide'>
                   {formattedDate}
                 </time>
-                <h2 className='mt-3 font-sans font-semibold text-foreground text-xl tracking-tight transition-colors group-hover:text-muted-foreground md:text-2xl'>
-                  <Link
-                    className='hover:underline'
-                    href={post.url.replace(
-                      new RegExp(`^/${post.locale}/`),
-                      '/'
-                    )}
-                  >
-                    {post.data.title}
-                  </Link>
-                </h2>
-                <p className='mt-2 text-muted-foreground/70 text-sm leading-relaxed'>
-                  {post.data.description}
-                </p>
+                <div>
+                  <h2 className='font-bold font-sans text-2xl text-foreground tracking-tight transition-colors group-hover:text-muted-foreground md:text-3xl'>
+                    <Link
+                      className='hover:underline'
+                      href={post.url.replace(
+                        new RegExp(`^/${post.locale}/`),
+                        '/'
+                      )}
+                    >
+                      {post.data.title}
+                    </Link>
+                  </h2>
+                  <p className='mt-3 font-light text-base text-muted-foreground/70 leading-relaxed'>
+                    {post.data.description}
+                  </p>
+                </div>
               </article>
             )
           })}
         </div>
       </section>
 
-      <footer className='mx-auto max-w-4xl border-t px-6 py-12 md:px-12'>
-        <div className='flex flex-col justify-between gap-6 md:flex-row md:items-center'>
-          <div className='text-muted-foreground/50 text-xs'>
-            {t('footer.location')}
-          </div>
-          <div className='flex gap-6'>
-            <a
-              className='text-muted-foreground/70 text-xs transition-colors hover:text-foreground'
-              href='https://twitter.com'
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              twitter
-            </a>
-            <a
-              className='text-muted-foreground/70 text-xs transition-colors hover:text-foreground'
-              href='https://github.com'
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              github
-            </a>
-            <a
-              className='text-muted-foreground/70 text-xs transition-colors hover:text-foreground'
-              href='mailto:hello@example.com'
-            >
-              email
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   )
 }

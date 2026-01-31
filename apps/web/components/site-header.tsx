@@ -1,53 +1,59 @@
-import { getTranslations } from 'next-intl/server'
+import { Button } from '@workspace/ui/components/button'
+import { User } from 'lucide-react'
 import LanguageSwitchButton from '@/components/language-switch-button'
 import ThemeSwitchButton from '@/components/theme-switch-button'
 import { Link } from '@/i18n/navigation'
 import { getServerSession } from '@/lib/session'
 
 export default async function SiteHeader() {
-  const t = await getTranslations('page.home')
   const session = await getServerSession()
 
   return (
-    <header className='mx-auto flex min-w-full max-w-4xl items-center justify-between px-6 py-6 md:min-w-4xl md:px-12'>
-      <Link className='font-bold font-sans text-sm tracking-widest' href='/'>
-        WW
-      </Link>
+    <header className='mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-8 md:px-12'>
+      <div className='flex flex-1 justify-start'>
+        <Link className='font-bold font-sans text-xl tracking-tighter' href='/'>
+          WW
+        </Link>
+      </div>
 
-      <nav className='flex items-center gap-1'>
+      <nav className='flex flex-1 justify-center gap-6 md:gap-8'>
         <Link
-          className='px-3 py-2 text-muted-foreground text-sm transition-colors hover:text-foreground'
+          className='font-medium text-sm transition-opacity hover:opacity-70'
           href='/blog'
         >
-          {t('nav.writing')}
+          Blog
         </Link>
         <Link
-          className='px-3 py-2 text-muted-foreground text-sm transition-colors hover:text-foreground'
+          className='font-medium text-sm transition-opacity hover:opacity-70'
           href='/docs'
         >
-          {t('nav.about')}
+          Docs
         </Link>
-
-        <div className='ml-2 flex items-center gap-1 border-l pl-3'>
-          {session ? (
-            <Link
-              className='px-2 py-1 text-muted-foreground text-xs transition-colors hover:text-foreground'
-              href='/profile'
-            >
-              {t('header.profile')}
-            </Link>
-          ) : (
-            <Link
-              className='px-2 py-1 text-muted-foreground text-xs transition-colors hover:text-foreground'
-              href='/auth'
-            >
-              {t('header.signIn')}
-            </Link>
-          )}
-          <ThemeSwitchButton />
-          <LanguageSwitchButton />
-        </div>
+        <Link
+          className='font-medium text-sm transition-opacity hover:opacity-70'
+          href='/resume'
+        >
+          Resume
+        </Link>
       </nav>
+
+      <div className='flex flex-1 items-center justify-end gap-1'>
+        {session ? (
+          <Link href='/profile'>
+            <Button aria-label='Profile' size='icon' variant='ghost'>
+              <User className='size-4' />
+            </Button>
+          </Link>
+        ) : (
+          <Link href='/auth'>
+            <Button aria-label='Sign In' size='icon' variant='ghost'>
+              <User className='size-4' />
+            </Button>
+          </Link>
+        )}
+        <ThemeSwitchButton />
+        <LanguageSwitchButton />
+      </div>
     </header>
   )
 }

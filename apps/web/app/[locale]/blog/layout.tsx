@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import RiveHippo from '@/components/rive-hippo'
+import SiteFooter from '@/components/site-footer'
 import SiteHeader from '@/components/site-header'
 
 interface BlogLayoutProps {
@@ -13,11 +13,7 @@ export default async function BlogLayout({ children }: BlogLayoutProps) {
 
       {children}
 
-      <footer className='w-full bg-white'>
-        <div className='flex flex-col items-center'>
-          <RiveHippo className='h-48 w-48' />
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   )
 }

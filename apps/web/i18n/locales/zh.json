@@ -17,7 +17,35 @@
         "profile": "个人资料"
       },
       "section": {
+        "experience": "工作经历",
         "writing": "文章"
+      },
+      "experience": {
+        "amazon-ai": {
+          "title": "Amazon · AI 基础设施",
+          "period": "2025 — 至今",
+          "description": "LLM 推理基础设施与 AI Agent 工具"
+        },
+        "amazon-lmtt": {
+          "title": "Amazon · 物流配送",
+          "period": "2022 — 2025",
+          "description": "基于机器学习的容量规划与配送优化"
+        },
+        "roblox": {
+          "title": "Roblox",
+          "period": "2021 — 2022",
+          "description": "工程效率工具与 CI/CD"
+        },
+        "microsoft": {
+          "title": "Microsoft",
+          "period": "2018 — 2021",
+          "description": "Windows 推送通知服务"
+        },
+        "aws": {
+          "title": "AWS",
+          "period": "2017 — 2018",
+          "description": "CodePipeline CI/CD 服务"
+        }
       },
       "footer": {
         "location": "王巍 · 西雅图"

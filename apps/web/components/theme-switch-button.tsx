@@ -1,78 +1,55 @@
 'use client'
 
 import { Button } from '@workspace/ui/components/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@workspace/ui/components/dropdown-menu'
-import { cn } from '@workspace/ui/lib/utils'
 import { Laptop, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useEffect, useMemo, useState } from 'react'
-
-type ThemeValue = 'system' | 'light' | 'dark'
+import { useEffect, useState } from 'react'
 
 export default function ThemeSwitchButton() {
-  const { theme, resolvedTheme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const active = useMemo(() => {
-    if (!mounted) {
-      return 'light'
-    }
+  if (!mounted) {
+    return (
+      <Button aria-label='Theme' disabled size='icon' variant='ghost'>
+        <Sun className='size-4' />
+      </Button>
+    )
+  }
+
+  const cycleTheme = () => {
     if (theme === 'system') {
-      return (resolvedTheme ?? 'light') as ThemeValue
+      setTheme('light')
+    } else if (theme === 'light') {
+      setTheme('dark')
+    } else {
+      setTheme('system')
     }
-    return (theme ?? 'light') as ThemeValue
-  }, [mounted, resolvedTheme, theme])
+  }
+
+  const getIcon = () => {
+    if (theme === 'dark') {
+      return Moon
+    }
+    if (theme === 'light') {
+      return Sun
+    }
+    return Laptop
+  }
+  const Icon = getIcon()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button aria-label='Theme' size='icon' variant='ghost'>
-          <span className='sr-only'>Theme</span>
-          <Sun
-            aria-hidden='true'
-            className={cn('size-4', active === 'dark' && 'hidden')}
-          />
-          <Moon
-            aria-hidden='true'
-            className={cn('size-4', active !== 'dark' && 'hidden')}
-          />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
-        <DropdownMenuItem
-          className={cn(theme === 'system' && 'text-muted-foreground')}
-          disabled={theme === 'system'}
-          onClick={() => setTheme('system')}
-        >
-          <Laptop />
-          System
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={cn(theme === 'light' && 'text-muted-foreground')}
-          disabled={theme === 'light'}
-          onClick={() => setTheme('light')}
-        >
-          <Sun />
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={cn(theme === 'dark' && 'text-muted-foreground')}
-          disabled={theme === 'dark'}
-          onClick={() => setTheme('dark')}
-        >
-          <Moon />
-          Dark
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      aria-label='Toggle theme'
+      onClick={cycleTheme}
+      size='icon'
+      variant='ghost'
+    >
+      <Icon className='size-4' />
+    </Button>
   )
 }

@@ -17,7 +17,35 @@
         "profile": "profile"
       },
       "section": {
+        "experience": "Experience",
         "writing": "Writing"
+      },
+      "experience": {
+        "amazon-ai": {
+          "title": "Amazon · AI Infrastructure",
+          "period": "2025 — Now",
+          "description": "LLM inference infrastructure and agentic AI tooling"
+        },
+        "amazon-lmtt": {
+          "title": "Amazon · Last Mile",
+          "period": "2022 — 2025",
+          "description": "ML-based capacity planning and delivery optimization"
+        },
+        "roblox": {
+          "title": "Roblox",
+          "period": "2021 — 2022",
+          "description": "Engineering efficiency tools and CI/CD"
+        },
+        "microsoft": {
+          "title": "Microsoft",
+          "period": "2018 — 2021",
+          "description": "Windows push notification services at scale"
+        },
+        "aws": {
+          "title": "AWS",
+          "period": "2017 — 2018",
+          "description": "CodePipeline CI/CD services"
+        }
       },
       "footer": {
         "location": "Wei Wang · Seattle"

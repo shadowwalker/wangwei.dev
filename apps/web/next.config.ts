@@ -8,6 +8,10 @@ const config: NextConfig = {
       {
         source: '/docs/:path*.mdx',
         destination: '/llms.mdx/docs/:path*'
+      },
+      {
+        source: '/blog/:path*.mdx',
+        destination: '/llms.mdx/blog/:path*'
       }
     ]
   }

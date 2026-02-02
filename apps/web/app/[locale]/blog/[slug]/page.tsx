@@ -1,13 +1,9 @@
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
 import { notFound } from 'next/navigation'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import type { ComponentType } from 'react'
 import { Link } from '@/i18n/navigation'
 import { blogSource } from '@/lib/source'
-
-interface Props {
-  params: Promise<{ slug: string }>
-}
 
 interface TocItem {
   title: string
@@ -24,9 +20,10 @@ interface BlogPageData {
   date: string | Date
 }
 
-export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params
-  const locale = await getLocale()
+export default async function BlogPostPage(
+  props: PageProps<'/[locale]/blog/[slug]'>
+) {
+  const { slug, locale } = await props.params
   const t = await getTranslations('page.blog')
   const page = blogSource.getPage([slug], locale)
 
@@ -83,15 +80,17 @@ export default async function BlogPostPage({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const pages = blogSource.getPages()
-  return pages.map((p) => ({
-    slug: p.slugs[0]
+  return blogSource.getPages().map((page) => ({
+    slug: page.slugs[0],
+    locale: page.locale
   }))
 }
 
-export async function generateMetadata({ params }: Props) {
-  const { slug } = await params
-  const locale = await getLocale()
+export async function generateMetadata(
+  props: PageProps<'/[locale]/blog/[slug]'>
+) {
+  const params = await props.params
+  const { slug, locale } = params
   const page = blogSource.getPage([slug], locale)
 
   if (!page) {

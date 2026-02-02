@@ -11,9 +11,17 @@ bun run build            # Build all packages and apps
 bun run check            # Lint with Ultracite/Biome
 bun run fix              # Auto-fix formatting and lint issues
 
+# Testing
+bun run test             # Run Jest unit tests (via Turbo)
+bun run test:e2e         # Run Playwright E2E tests (via Turbo)
+
 # Web app specific (from apps/web/)
 bun --bun next dev --turbopack   # Dev server with Turbopack
 bun --bun next build             # Production build
+bun run test                     # Run Jest unit tests
+bun run test:watch               # Run Jest in watch mode
+bun run test:e2e                 # Run Playwright E2E tests
+bun run test:e2e:ui              # Run Playwright with UI mode
 
 # Database (from packages/db/)
 bun run predev           # Start local Neon DB (Docker) and push schema
@@ -42,6 +50,8 @@ packages/typescript-config/  → Shared TS configs
 - Tailwind CSS 4 with shadcn/ui components
 - Ultracite/Biome for linting and formatting
 - Zod + @t3-oss/env-nextjs for environment validation
+- Jest + React Testing Library for unit/component tests
+- Playwright for E2E tests
 
 **Routing & i18n**
 - Routes use `[locale]` dynamic segment: `app/[locale]/page.tsx`
@@ -131,6 +141,58 @@ This project uses **Ultracite** (Biome-based) for automated formatting and linti
 - Assertions inside `it()` or `test()` blocks
 - Async/await over done callbacks
 - No `.only` or `.skip` in commits
+
+## Testing
+
+**Test Structure (apps/web/)**
+```
+__tests__/           → Jest unit/component tests
+e2e/                 → Playwright E2E tests
+jest.config.ts       → Jest configuration
+jest.setup.ts        → Jest setup (testing-library/jest-dom)
+playwright.config.ts → Playwright configuration
+```
+
+**Unit Tests (Jest + React Testing Library)**
+- Test files: `__tests__/**/*.test.tsx` or `*.test.ts`
+- Import Jest globals explicitly: `import { describe, expect, it } from '@jest/globals'`
+- Use `@testing-library/react` for component testing
+- Mock ESM modules via `moduleNameMapper` in jest.config.ts if needed
+
+**E2E Tests (Playwright)**
+- Test files: `e2e/**/*.spec.ts`
+- Playwright starts dev server automatically (`bun run dev`)
+- Tests run against `http://localhost:3000`
+- Run with UI mode for debugging: `bun run test:e2e:ui`
+
+**Writing Tests**
+```typescript
+// Unit test example
+import { render, screen } from '@testing-library/react'
+import { describe, expect, it } from '@jest/globals'
+
+describe('Component', () => {
+  it('renders correctly', () => {
+    render(<Component />)
+    expect(screen.getByRole('button')).toBeInTheDocument()
+  })
+})
+
+// E2E test example
+import { expect, test } from '@playwright/test'
+
+test('navigation works', async ({ page }) => {
+  await page.goto('/')
+  await page.click('text=Blog')
+  await expect(page).toHaveURL(/.*blog/)
+})
+```
+
+**Testing Guidelines**
+- Unit tests: Test logic, utilities, and component behavior in isolation
+- E2E tests: Test user flows and integration between pages
+- Mock external dependencies (APIs, auth) in unit tests
+- Avoid testing implementation details; test behavior
 
 Pre-commit hooks (Lefthook) automatically run `fix` and `build`.
 

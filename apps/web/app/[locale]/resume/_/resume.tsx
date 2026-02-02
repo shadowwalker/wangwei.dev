@@ -8,9 +8,9 @@ import {
   Phone,
   Sparkles
 } from 'lucide-react'
-import { RESUME_DATA } from './data'
+import type { ResumeData } from './data'
 
-export function ResumePaper() {
+export function ResumePaper({ data }: { data: ResumeData }) {
   const {
     profile,
     summary,
@@ -19,7 +19,7 @@ export function ResumePaper() {
     internships,
     technicalSkills,
     recentProjects
-  } = RESUME_DATA
+  } = data
 
   return (
     <>

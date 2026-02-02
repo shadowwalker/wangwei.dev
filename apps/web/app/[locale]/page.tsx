@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server'
-import SiteFooter from '@/components/site-footer'
+import SiteFooter from '@/components/site-footer-wrapper'
 import SiteHeader from '@/components/site-header'
 import { Link } from '@/i18n/navigation'
 import { blogSource } from '@/lib/source'

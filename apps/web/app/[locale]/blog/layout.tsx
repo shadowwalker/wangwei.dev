@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import SiteFooter from '@/components/site-footer'
+import SiteFooter from '@/components/site-footer-wrapper'
 import SiteHeader from '@/components/site-header'
 
 interface BlogLayoutProps {

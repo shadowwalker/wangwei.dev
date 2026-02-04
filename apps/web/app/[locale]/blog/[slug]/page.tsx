@@ -1,8 +1,8 @@
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import type { ComponentType } from 'react'
-import { Link } from '@/i18n/navigation'
 import { blogSource } from '@/lib/source'
 
 interface TocItem {

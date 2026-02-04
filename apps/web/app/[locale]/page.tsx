@@ -96,13 +96,7 @@ export default async function Page() {
                 </time>
                 <div>
                   <h2 className='font-bold font-sans text-2xl text-foreground tracking-tight transition-colors group-hover:text-muted-foreground md:text-3xl'>
-                    <Link
-                      className='hover:underline'
-                      href={post.url.replace(
-                        new RegExp(`^/${post.locale}/`),
-                        '/'
-                      )}
-                    >
+                    <Link className='hover:underline' href={post.url}>
                       {post.data.title}
                     </Link>
                   </h2>

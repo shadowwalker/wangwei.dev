@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import type { Locale } from 'next-intl'
 import { getLocale, getTranslations } from 'next-intl/server'
 import SiteFooter from '@/components/site-footer-wrapper'
 import SiteHeader from '@/components/site-header'
-import { Link } from '@/i18n/navigation'
 import { WebSiteJsonLd } from '@/lib/seo/json-ld'
 import {
   getAlternateLanguages,

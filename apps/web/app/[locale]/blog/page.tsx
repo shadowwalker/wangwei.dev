@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
 import { blogSource } from '@/lib/source'
 
 interface BlogListData {

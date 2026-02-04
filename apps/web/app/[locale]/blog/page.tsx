@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { blogSource } from '@/lib/source'
@@ -6,6 +7,14 @@ interface BlogListData {
   title: string
   description?: string
   date: string | Date
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('page.blog')
+  return {
+    title: t('title'),
+    description: t('subtitle')
+  }
 }
 
 export default async function BlogIndexPage() {

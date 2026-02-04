@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import type { ComponentType } from 'react'
+import { ArticleJsonLd } from '@/lib/seo/json-ld'
+import { getAlternateLanguages, getCanonicalUrl } from '@/lib/seo/metadata'
 import { blogSource } from '@/lib/source'
 
 interface TocItem {
@@ -34,8 +36,9 @@ export default async function BlogPostPage(
   const data = page.data as unknown as BlogPageData
   const Mdx = data.body
   const toc = data.toc
-  const date = new Date(data.date as string)
-  const formattedDate = date.toLocaleDateString(locale, {
+  const publishedAt =
+    data.date instanceof Date ? data.date : new Date(data.date as string)
+  const formattedDate = publishedAt.toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -43,6 +46,14 @@ export default async function BlogPostPage(
 
   return (
     <main className='min-h-screen'>
+      <ArticleJsonLd
+        author={data.author}
+        datePublished={publishedAt}
+        description={data.description ?? ''}
+        locale={locale}
+        title={data.title}
+        url={getCanonicalUrl(`/blog/${slug}`, locale)}
+      />
       <header className='mx-auto max-w-3xl px-6 pt-20 pb-8 md:px-12 md:pt-32'>
         <Link
           className='text-muted-foreground text-sm transition-colors hover:text-foreground'
@@ -64,7 +75,7 @@ export default async function BlogPostPage(
         <div className='mt-6 flex items-center gap-4 text-muted-foreground/70 text-sm'>
           <span>{data.author}</span>
           <span>·</span>
-          <time>{formattedDate}</time>
+          <time dateTime={publishedAt.toISOString()}>{formattedDate}</time>
         </div>
       </header>
 
@@ -97,8 +108,23 @@ export async function generateMetadata(
     return {}
   }
 
+  const path = `/blog/${slug}`
+  const publishedAt =
+    page.data.date instanceof Date
+      ? page.data.date
+      : new Date(page.data.date as string)
+
   return {
     title: page.data.title,
-    description: page.data.description
+    description: page.data.description,
+    alternates: {
+      canonical: getCanonicalUrl(path, locale),
+      languages: getAlternateLanguages(path)
+    },
+    openGraph: {
+      type: 'article',
+      authors: [page.data.author],
+      publishedTime: publishedAt.toISOString()
+    }
   }
 }

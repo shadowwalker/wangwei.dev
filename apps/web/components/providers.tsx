@@ -4,7 +4,11 @@ import { type Framework, FrameworkProvider } from 'fumadocs-core/framework'
 import { RootProvider as FumadocsRootProvider } from 'fumadocs-ui/provider/next'
 import Image from 'next/image'
 import { useParams, useSearchParams } from 'next/navigation'
-import { type Locale, NextIntlClientProvider } from 'next-intl'
+import {
+  type AbstractIntlMessages,
+  type Locale,
+  NextIntlClientProvider
+} from 'next-intl'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import type * as React from 'react'
 import { Suspense } from 'react'
@@ -14,10 +18,12 @@ import { Link, usePathname, useRouter } from '@/i18n/navigation'
 
 export function Providers({
   children,
-  locale
+  locale,
+  messages
 }: {
   children: React.ReactNode
   locale?: Locale
+  messages?: AbstractIntlMessages
 }) {
   return (
     <NextThemesProvider
@@ -27,7 +33,7 @@ export function Providers({
       enableColorScheme
       enableSystem
     >
-      <NextIntlClientProvider locale={locale}>
+      <NextIntlClientProvider locale={locale} messages={messages}>
         <Suspense>
           <FumadocsProviders locale={locale}>{children}</FumadocsProviders>
         </Suspense>

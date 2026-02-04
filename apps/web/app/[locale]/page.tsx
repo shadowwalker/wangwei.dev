@@ -1,13 +1,48 @@
+import type { Metadata } from 'next'
+import type { Locale } from 'next-intl'
 import { getLocale, getTranslations } from 'next-intl/server'
 import SiteFooter from '@/components/site-footer-wrapper'
 import SiteHeader from '@/components/site-header'
 import { Link } from '@/i18n/navigation'
+import { WebSiteJsonLd } from '@/lib/seo/json-ld'
+import {
+  getAlternateLanguages,
+  getCanonicalUrl,
+  SITE_NAME
+} from '@/lib/seo/metadata'
 import { blogSource } from '@/lib/source'
 
 interface BlogListData {
   title: string
   description?: string
   date: string | Date
+}
+
+export async function generateMetadata(
+  props: PageProps<'/[locale]'>
+): Promise<Metadata> {
+  const { locale } = await props.params
+  const t = await getTranslations({
+    locale: locale as Locale,
+    namespace: 'page.home'
+  })
+
+  return {
+    title: { absolute: SITE_NAME },
+    description: t('tagline'),
+    alternates: {
+      canonical: getCanonicalUrl('/', locale),
+      languages: getAlternateLanguages('/')
+    },
+    openGraph: {
+      title: SITE_NAME,
+      description: t('tagline')
+    },
+    twitter: {
+      title: SITE_NAME,
+      description: t('tagline')
+    }
+  }
 }
 
 export default async function Page() {
@@ -28,6 +63,7 @@ export default async function Page() {
 
   return (
     <main className='min-h-screen'>
+      <WebSiteJsonLd locale={locale} />
       <SiteHeader />
 
       <section className='mx-auto max-w-4xl px-6 pt-32 pb-16 md:px-12 md:pt-48 md:pb-24'>
